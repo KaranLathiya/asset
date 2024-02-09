@@ -48,7 +48,7 @@ func asset(w http.ResponseWriter, r *http.Request) {
 				from
 					public.asset_category
 				where
-					name ilike 'a%'))
+					name ilike '%' || $1 || '%'))
 			or id in(
 			select
 				case
@@ -57,19 +57,19 @@ func asset(w http.ResponseWriter, r *http.Request) {
 			from
 				public.asset_category
 			where
-				name ilike 'a%')
+				name ilike '%' || $1 || '%')
 			or id in(
 			select 
 				id
 			from
 				public.asset_category
 			where
-				name ilike 'a%')
+				name ilike '%' || $1 || '%')
 		order by
 		parent_id  asc,
 			"name" asc
 				;
-		`)
+		`,name)
 	if err != nil {
 		databaseErrorMessage, databaseErrorCode := response.DatabaseErrorShow(err)
 		response.MessageShow(databaseErrorCode, databaseErrorMessage, w)
@@ -101,7 +101,9 @@ func asset(w http.ResponseWriter, r *http.Request) {
 			assetList[index].SubCategories = append(assetList[index].SubCategories, subAsset)
 		}
 	}
-	fmt.Println(assetList)
-	assetListData, _ := json.MarshalIndent(assetList, "", "  ")
+	var outputMap = make(map[string][]model.AssetList)
+	outputMap["asset_type"] = assetList
+	// fmt.Println(assetList)
+	assetListData, _ := json.MarshalIndent(outputMap, "", "  ")
 	w.Write(assetListData)
 }
