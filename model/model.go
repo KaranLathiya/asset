@@ -1,18 +1,13 @@
 package model
 
-type AssetList struct {
-	ID            string         `json:"id" validate:"required,email" `
-	Name          string         `json:"name" validate:"required" `
-	Thumbnail     string         `json:"thumbnail" validate:"required" `
-	SubCategories []SubAssetList `json:"sub_categories" validate:"required"`
+type MainCategory struct {
+	ID          string         `json:"id"`
+	Name        string         `json:"name"`
+	Thumbnail   string         `json:"thumbnail"`
+	SubCategory *[]MainCategory `json:"sub_category,omitempty"`
 }
 
-type SubAssetList struct {
-	ID        string `json:"id" validate:"required,email" `
-	Name      string `json:"name" validate:"required" `
-	Thumbnail string `json:"thumbnail" validate:"required" `
-}
-
+	
 type Message struct {
 	Code    int    `json:"code"  validate:"required"`
 	Message string `json:"message"  validate:"required"`

@@ -18,7 +18,7 @@ func Connect() (*sql.DB, error) {
 	var err error
 	once.Do(func() {
 		// Connection parameters
-connStr := "postgresql://root@localhost:26257/work?sslmode=disable"
+		connStr := "postgresql://root@localhost:26257/karan?sslmode=disable"
 
 		// connection_string := "user=2810k dbname=work sslmode=disable"
 		// fmt.Println(connection_string)
